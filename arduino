@@ -1,0 +1,1 @@
+GET https://api.example.com/weather/forecast?city=London&country=GB&days=5
