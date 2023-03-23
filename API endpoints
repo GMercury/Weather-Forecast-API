@@ -1,0 +1,31 @@
+import requests
+
+API_KEY = 'YOUR_API_KEY_HERE'  # Replace with your OpenWeatherMap API key
+
+def get_current_weather(city, country):
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city},{country}&appid={API_KEY}&units=metric'
+    response = requests.get(url)
+    data = response.json()
+    current_weather = {
+        'temperature': data['main']['temp'],
+        'humidity': data['main']['humidity'],
+        'description': data['weather'][0]['description'],
+        'icon': data['weather'][0]['icon']
+    }
+    return current_weather
+
+def get_weather_forecast(city, country, days):
+    url = f'http://api.openweathermap.org/data/2.5/forecast/daily?q={city},{country}&appid={API_KEY}&units=metric&cnt={days}'
+    response = requests.get(url)
+    data = response.json()
+    forecast = []
+    for day in data['list']:
+        forecast_data = {
+            'date': day['dt'],
+            'temperature': day['temp']['day'],
+            'humidity': day['humidity'],
+            'description': day['weather'][0]['description'],
+            'icon': day['weather'][0]['icon']
+        }
+        forecast.append(forecast_data)
+    return forecast
